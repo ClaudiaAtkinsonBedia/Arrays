@@ -48,7 +48,7 @@ function inicio()
 
     function validarEmail() // Con esta función validamos el correo electrónico
     {
-        /*let elemento = document.getElementById("correo"); // Cogemos el id del correo electrónico
+        let elemento = document.getElementById("correo"); // Cogemos el id del correo electrónico
         let regexC = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]/; // La expresión regular del correo electrónico
         let errorC = document.getElementById("errorC"); // Cogemos el id del errorC (el div donde van los errores del correo, donde vamos a escribir cuáles son los problemas que hemos visto con el correo)
         let terminacionesPermitidas = ["com", "net", "org", "es", "it", "jp", "edu", "co.uk"];
@@ -90,35 +90,8 @@ function inicio()
         } else {
             errorC.innerHTML = "La terminación del correo electrónico no es válida.";
             return false;
-        }*/
-            // Verificar si hay exactamente una arroba en el email
-            const arrobaIndex = email.indexOf('@');
-            if (arrobaIndex === -1 || email.indexOf('@', arrobaIndex + 1) !== -1) {
-                return false;
-            }
-        
-            // Dividir el email en partes: nombre de usuario y dominio
-            const [usuario, dominio] = email.split('@');
-        
-            // Verificar que hay al menos un punto en el dominio
-            const puntoIndex = dominio.indexOf('.');
-            if (puntoIndex === -1) {
-                return false;
-            }
-        
-            // Obtener la terminación del dominio
-            const terminacion = dominio.slice(puntoIndex + 1);
-        
-            // Terminaciones permitidas, incluyendo .co.uk
-            const terminacionesPermitidas = ["com", "net", "org", "co.uk"]; // Puedes modificar esto según tus necesidades
-        
-            // Verificar si la terminación está en el array de terminaciones permitidas
-            if (!terminacionesPermitidas.includes(terminacion)) {
-                return false;
-            }
-        
-            return true;
         }
+    }
 
 
     function validarPassword() // Con esta función validamos la contraseña
