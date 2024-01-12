@@ -57,37 +57,42 @@ function inicio()
             errorC.innerHTML = "Debe introducir un email válido."; // Les indicamos en el div errorC que escriban su correo
             return false;
         }
-        if (elemento.value.toLowerCase().endsWith("co.uk"))
-        {
-            var partes = elemento.value.split(".");
-            var terminacion = partes[partes.length - 1];
-            var cadenaFinal = partes[partes.length - 2] + ".";
-            cadenaFinal += terminacion;
-
-            var indice = terminacionesPermitidas.findIndex(
-                (terminacionPermitida) => terminacionPermitida.toLowerCase() === cadenaFinal.toLowerCase()
-            );
-        }
         else if (!regexC.test(elemento.value)) // Si el correo electrónico que escriben no coincide con la expresión regular
         {
             errorC.innerHTML = "El correo electrónico no cumple con los requisitos."; // Les indicamos en el div errorC que escriban un correo que cumpla con los requisitos
             return false;
         }
         else
-        {
+        {   
+            if (elemento.value.toLowerCase().endsWith("co.uk"))
+            {
+                console.log("hola"); 
+                var partes = elemento.value.split(".");
+                var terminacion = partes[partes.length - 1];
+                var cadenaFinal = partes[partes.length - 2] + ".";
+                cadenaFinal += terminacion;
+
+                var indice = terminacionesPermitidas.findIndex(
+                    (terminacionPermitida) => terminacionPermitida.toLowerCase() === cadenaFinal.toLowerCase()
+                );
+            }
             partes = elemento.value.split(".");
             terminacion = partes[partes.length - 1];
+         
         }
         
         indice = terminacionesPermitidas.findIndex(
             (terminacionPermitida) => terminacionPermitida.toLowerCase() === terminacion.toLowerCase()
         );
-
+console.log(indice);
         // Verificamos si la terminación está en el array permitido
-        if (indice !== -1) {
+        if (indice !== -1) 
+        {
             errorC.innerHTML = ""; // No hay error
             return true;
-        } else {
+        } 
+        else 
+        {
             errorC.innerHTML = "La terminación del correo electrónico no es válida.";
             return false;
         }
