@@ -49,9 +49,9 @@ function inicio()
     function validarEmail() // Con esta función validamos el correo electrónico
     {
         let elemento = document.getElementById("correo"); // Cogemos el id del correo electrónico
-        let regexC = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]/; // La expresión regular del correo electrónico
+        let regexC = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]/; // La expresión regular del correo electrónico QUE NO CONTIENE EL FINAL (el dominio, porque eso lo vamos a controlar con arrays)
         let errorC = document.getElementById("errorC"); // Cogemos el id del errorC (el div donde van los errores del correo, donde vamos a escribir cuáles son los problemas que hemos visto con el correo)
-        let terminacionesPermitidas = ["com", "net", "org", "es", "it", "jp", "edu", "co.uk"];
+        let terminacionesPermitidas = ["com", "net", "org", "gov", "mil", "co", "info", "biz", "io", "tv", "me", "us", "uk", "ca", "au", "de", "fr", "es", "it", "jp", "edu", "co.uk", "com.au", "net.au", "org.au", "edu.au", "gov.au"]; // El array con las terminaciones más típicas, que podemos ir rellenando con más según vayamos necesitando
         if (elemento.value === "") // Si el campo del correo electrónico está vacío
         {
             errorC.innerHTML = "Debe introducir un email válido."; // Les indicamos en el div errorC que escriban su correo
@@ -62,42 +62,30 @@ function inicio()
             errorC.innerHTML = "El correo electrónico no cumple con los requisitos."; // Les indicamos en el div errorC que escriban un correo que cumpla con los requisitos
             return false;
         }
-        else
-        {   
-            if (elemento.value.toLowerCase().endsWith("co.uk"))
-            {
-                console.log("hola"); 
-                var partes = elemento.value.split(".");
-                var terminacion = partes[partes.length - 1];
-                var cadenaFinal = partes[partes.length - 2] + ".";
-                cadenaFinal += terminacion;
-
-                var indice = terminacionesPermitidas.findIndex(
-                    (terminacionPermitida) => terminacionPermitida.toLowerCase() === cadenaFinal.toLowerCase()
-                );
-            }
+        else // Dividimos el correo electrónico en partes usando el punto como separador
+        {
             partes = elemento.value.split(".");
+            // Obtenemos la última parte, que debería ser la terminación del dominio, aunque sabemos que no siempre es así, porque hay casos como .co.uk
             terminacion = partes[partes.length - 1];
-         
         }
         
+        // Buscamos la posición de la terminación en el array terminacionesPermitidas
         indice = terminacionesPermitidas.findIndex(
             (terminacionPermitida) => terminacionPermitida.toLowerCase() === terminacion.toLowerCase()
         );
-console.log(indice);
-        // Verificamos si la terminación está en el array permitido
-        if (indice !== -1) 
+        
+        // Verificamos si la terminación está en el array permitido o si es una terminación especial como "co.uk", "com.au", etc.
+        if (indice !== -1 || elemento.value.toLowerCase().endsWith("co.uk") || elemento.value.toLowerCase().endsWith("com.au") || elemento.value.toLowerCase().endsWith("net.au") || elemento.value.toLowerCase().endsWith("org.au") || elemento.value.toLowerCase().endsWith("edu.au") || elemento.value.toLowerCase().endsWith("gov.au"))
         {
-            errorC.innerHTML = ""; // No hay error
+            errorC.innerHTML = ""; // No hay error, la terminación es válida
             return true;
         } 
         else 
         {
-            errorC.innerHTML = "La terminación del correo electrónico no es válida.";
+            errorC.innerHTML = "La terminación del correo electrónico no es válida."; // Indicamos en el div errorC que la terminación del correo electrónico no es válida
             return false;
         }
     }
-
 
     function validarPassword() // Con esta función validamos la contraseña
     {
